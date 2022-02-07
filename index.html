@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>book-shop</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+
+  <body onload="onInit()">
+    <h1>Are you reading or what?</h1>
+    <span class="add-book" onclick="openInput()">Create new book</span>
+    <div class="add-book-area">
+        <input type="text" name="book-name" placeholder="Enter new name" />
+        <input type="text" name="price" placeholder="Enter new price" />
+        <button class="add" onclick="onAddBook()">ADD</button>
+    </div>
+    <table class="books-table"></table>
+
+    <section class="modal"> </section>
+
+    <button class="back-page" onclick="onNextPage(false)">Back Page</button>
+    <button class="next-page" onclick="onNextPage(true)">Next Page</button>
+
+    <script src="js/services/storage-service.js"></script>
+    <script src="js/services/book-service.js"></script>
+    <script src="js/book-controller.js"></script>
+  </body>
+</html>

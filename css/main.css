@@ -1,0 +1,97 @@
+body {
+    background-color: rgb(154, 240, 255);
+    overflow: hidden;
+}
+
+.add-book{
+    color: rgb(23, 81, 206);
+    cursor: pointer;
+    margin: 10px;
+}
+
+.add-book-area{
+    display: none;
+}
+
+.disable-btn{
+    background-color: rgb(219, 68, 68);;
+}
+
+.books-table{
+    background-color: rgb(101, 99, 202);
+    padding: 10px;
+}
+
+td{
+    padding: 10px;
+}
+
+.click-on{
+    cursor: pointer;
+}
+
+.btn{
+    color: white;
+}
+
+.readBookBtn{
+    background-color: rgb(58, 58, 255);
+}
+
+.updateBookBtn{
+    background-color: rgb(202, 202, 41);
+}
+
+.deleteBookBtn{
+    background-color: rgb(250, 81, 81);
+}
+
+.modal{
+    background-color: black;
+    position: fixed;
+    width: 400px;
+    height: 450px;
+    top: 50px;
+    right: -500px;
+    color: white;
+}
+
+.close-modal{
+    float: right;
+    margin-right: 10px;
+    position: relative;
+    top: -45px;
+}
+
+.show{
+    right: 75px;
+    transition-duration: 1s;
+}
+
+.book-name{
+    left: 36%;
+    position: relative;
+    margin: 20px;
+}
+
+.flex-container{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.modal img{    
+    width: 30%;
+    flex-basis: 50%;
+    margin-left: 15px;
+}
+
+.modal p{
+    font-size: small;
+    flex-basis: 55%;
+}
+
+.btns{
+    left: 44%;
+    position: relative;
+}
