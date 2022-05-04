@@ -2,31 +2,35 @@
 
 const STORAGE_KEY = "booksDB";
 var gBooks;
-const PAGE_SIZE = 2
-var gPageIdx = 1
+const PAGE_SIZE = 2;
+var gPageIdx = 1;
 _createBooks();
 
 function setNextPage(isForword) {
-  isForword ? gPageIdx++ : gPageIdx--
+  isForword ? gPageIdx++ : gPageIdx--;
   if ((gPageIdx - 1) * PAGE_SIZE >= gBooks.length) {
-    console.log('cant move forword');
-    console.log('turning red');
-    var elNextBtn = document.querySelector('.next-page')
-    elNextBtn.classList.add('disable-btn')
-    gPageIdx--
-    return
-  } else if (!gPageIdx){
-    console.log('second condtions');
-    var elBackBtn = document.querySelector('.back-page')
-    elBackBtn.classList.add('disable-btn')
-    gPageIdx++
-    return
+    console.log("cant move forword");
+    console.log("turning red");
+    var elNextBtn = document.querySelector("[name=next]");
+    elNextBtn.classList.remove("btn-outline-success");
+    elNextBtn.classList.add("btn-outline-danger");
+    gPageIdx--;
+    return;
+  } else if (!gPageIdx) {
+    console.log("second condtions");
+    var elBackBtn = document.querySelector("[name=prev]");
+    elBackBtn.classList.remove("btn-outline-success");
+    elBackBtn.classList.add("btn-outline-danger");
+    gPageIdx++;
+    return;
   }
-  var elBackBtn = document.querySelector('.back-page')
-  elBackBtn.classList.remove('disable-btn')
-  var elNextBtn = document.querySelector('.next-page')
-  elNextBtn.classList.remove('disable-btn')
-  console.log('gPageIdx',gPageIdx);
+  var elNextBtn = document.querySelector("[name=next]");
+  elNextBtn.classList.remove("btn-outline-danger");
+  elNextBtn.classList.add("btn-outline-success");
+  var elBackBtn = document.querySelector("[name=prev]");
+  elBackBtn.classList.remove("btn-outline-danger");
+  elBackBtn.classList.add("btn-outline-success");
+  console.log("gPageIdx", gPageIdx);
 }
 
 function _createBooks() {
@@ -58,18 +62,18 @@ function _createBook(
 }
 
 function getBooksForDisplay() {
-  console.log('gBooks',gBooks);
-  var books = []
-  var indexStart = (gPageIdx - 1) * PAGE_SIZE
-  var indexEnd = gPageIdx * PAGE_SIZE
-  console.log('indexStart',indexStart);
-  console.log('indexEnd',indexEnd);
+  console.log("gBooks", gBooks);
+  var books = [];
+  var indexStart = (gPageIdx - 1) * PAGE_SIZE;
+  var indexEnd = gPageIdx * PAGE_SIZE;
+  console.log("indexStart", indexStart);
+  console.log("indexEnd", indexEnd);
   for (var i = indexStart; i < indexEnd && i >= 0 && i < gBooks.length; i++) {
-    console.log('i', i)
-    books.push(gBooks[i])
+    console.log("i", i);
+    books.push(gBooks[i]);
   }
-  console.log('books',books);
-  return books
+  console.log("books", books);
+  return books;
 }
 
 function getBookById(bookId) {
@@ -84,7 +88,7 @@ function removeBook(bookId) {
 
 function addBook(name, price) {
   var newBook = _createBook(name, price);
-  gBooks.push(newBook);
+  gBooks.unshift(newBook);
   _saveBooksToStorage();
 }
 
@@ -101,32 +105,10 @@ function updateRating(bookId, rating) {
 }
 
 function setSort(sortBy, isDescending) {
-  gBooks =
-    sortBy === "txt" ? sortByText(isDescending) : sortByPrice(isDescending);
+  if(sortBy === "txt") gBooks = sortByText(isDescending);
+  else if(sortBy === "price") gBooks = sortByPrice(isDescending);
+  else gBooks = sortByPrice(isDescending)
 }
-
-// function getTodosForDisplay() {
-//     var todos = [];
-//     console.log('todos', todos);
-//     if (gFilterBy === 'ALL') todos = gTodos
-//     else {
-//         todos = gTodos.filter(todo =>
-//             todo.isDone && gFilterBy === 'DONE' ||
-//             !todo.isDone && gFilterBy === 'ACTIVE'
-//         )
-//     }
-//     console.log('todos', todos);
-//     if (!gSortBy || !todos.length) return todos
-//     switch (gSortBy.category) {
-//         case 'AB':
-//             todos = sortByAB(todos, gSortBy.sortBy === 'A-Z')
-//         case 'TIME':
-//             todos = sortByTime(todos, gSortBy.sortBy === 'RECENT')
-//         case 'IMP':
-//             todos = sortByImp(todos, gSortBy.sortBy === 'IMPORTANT')
-//     }
-//     return todos
-// }
 
 function sortByText(isDec) {
   return gBooks.sort(function (a, b) {
@@ -141,6 +123,12 @@ function sortByText(isDec) {
 function sortByPrice(isDec) {
   return gBooks.sort(function (a, b) {
     return isDec ? b.price - a.price : a.price - b.price;
+  });
+}
+
+function sortByRating(isDec) {
+  return gBooks.sort(function (a, b) {
+    return isDec ? b.rating - a.rating : a.rating - b.rating;
   });
 }
 

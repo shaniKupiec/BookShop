@@ -1,30 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>book-shop</title>
-    <link rel="stylesheet" href="css/main.css" />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Book Shop</title>
+
+    <!-- bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <!-- Custom styles for this template -->
+    <link href="css/book.css" rel="stylesheet" />
   </head>
 
-  <body onload="onInit()">
-    <h1>Are you reading or what?</h1>
-    <span class="add-book" onclick="openInput()">Create new book</span>
-    <div class="add-book-area">
-        <input type="text" name="book-name" placeholder="Enter new name" />
-        <input type="text" name="price" placeholder="Enter new price" />
-        <button class="add" onclick="onAddBook()">ADD</button>
-    </div>
-    <table class="books-table"></table>
+  <body class="overflow-hidden">
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-light justify-content-starte"
+    >
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav d-flex flex-grow-1">
+            <li class="nav-item p-2">
+              <button
+                type="button"
+                class="btn btn-outline-success"
+                name="prev"
+                onclick="onNextPage(false)"
+                data-trans="prev-page"
+              >
+                Prev page
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-success"
+                name="next"
+                onclick="onNextPage(true)"
+                data-trans="next-page"
+              >
+                Next page
+              </button>
+            </li>
+            <li class="nav-item p-2">
+              <button
+                type="button"
+                class="create-new-book btn btn-outline-dark"
+                onclick="openInputBook()"
+                data-trans="create-new"
+              >
+                Create New Book
+              </button>
+            </li>
+            <li class="nav-item p-2">
+              <select
+                class="form-select btn btn-outline-dark"
+                aria-label="Default select example"
+                onchange="onSetLang(this.value)"
+              >
+                <option value="en" data-trans="lang1">English - default</option>
+                <option value="es" data-trans="lang2">Hebrew</option>
+                <option value="he" data-trans="lang3">Spanish</option>
+              </select>
+            </li>
 
-    <section class="modal"> </section>
+            <li class="nav-item ml-auto p-2 align-self-endß">
+              <span class="cuur-lang nav-link active" data-trans="oter-lang">
+                we also support spanish and hebrew
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-    <button class="back-page" onclick="onNextPage(false)">Back Page</button>
-    <button class="next-page" onclick="onNextPage(true)">Next Page</button>
+    <img src="img/bg-img.jpg" class="w-100 p-3 position-relative" />
+    <table
+      class="table table-hover w-75 p-3 position-absolute align-self-center"
+      style="right: 15%; top: 40%; background-color: aliceblue"
+      data-fixed-columns="true"
+    >
+      <thead>
+        <tr>
+          <th data-trans="id">Id</th>
+          <th
+            class="click-on w-25 p-3"
+            onclick="onSort('txt')"
+            data-trans="title"
+          >
+            Title
+          </th>
+          <th class="click-on" onclick="onSort('price')" data-trans="price">
+            Price
+          </th>
+          <th onclick="onSort('rating')" data-trans="rating">
+            Rating
+          </th>
+          <th colspan="3" data-trans="actions" class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="render-here"></tbody>
+    </table>
 
+    <!-- Modal for create book -->
+    <section
+      id="add-book-area"
+      class="container w-50 p-3 d-flex justify-content-center"
+      style="right: 20%; top: 15%; background-color: bisque"
+    >
+      <div class="container">
+        <input
+          type="text"
+          name="book-name"
+          placeholder="Enter new name"
+          data-trans="name-ph"
+        />
+        <input
+          type="text"
+          name="price"
+          placeholder="Enter new price"
+          data-trans="price-ph"
+        />
+        <button class="add" onclick="onAddBook()" data-trans="add-btn">
+          ADD
+        </button>
+      </div>
+    </section>
+
+    <!-- Modal to update new price -->
+    <section
+      id="add-price-area"
+      class="container w-50 p-3 d-flex justify-content-center"
+      style="right: 20%; top: 15%; background-color: bisque"
+    >
+      <input
+        type="text"
+        name="book-new-price"
+        placeholder="New Price"
+        data-trans="price-ph"
+      />
+      <button class="" onclick="onUpdateBook()" data-trans="change-btn">
+        Change
+      </button>
+    </section>
+
+    <!-- modal -->
+    <section id="modal">
+    </section>
+
+    <!-- bootstrap JavaScript -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Custom scripts for this template -->
     <script src="js/services/storage-service.js"></script>
+    <script src="js/services/i18.service.js"></script>
     <script src="js/services/book-service.js"></script>
-    <script src="js/book-controller.js"></script>
+    <script src="js/store-controller.js"></script>
   </body>
 </html>
