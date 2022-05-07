@@ -1,10 +1,7 @@
 # Book Shop
 
-<p>
-  <h3>Allows the user to see books in the book store</h3>
-user can: read, update price, delete and add new book.
-more features: paging, i18n
-</p>
-<p>Learning project</p>
+<p>Allows the user to see books in the book store</p>
+<p>The user can: read, update price, delete and add new book</p>
+<p>More features: paging, i18n</p>
 
 <a href="https://shanikupiec.github.io/book-shop/" target="blank">Link to GitHub Pages</a>
